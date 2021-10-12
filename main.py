@@ -135,6 +135,55 @@ def test_get_longest_prime_digits():
     assert (get_longest_prime_digits([23,7523,55])==[23,7523,55])
     assert (get_longest_prime_digits([12,42,30])==[])
 
+
+def toate_nr_pare(lst):
+    '''
+    functie care testeaza daca toate numerele dintr o lista sunt pare
+    :param lst: lista de numere pentru care se verifica proprietatea
+    :return: True, daca toate numerele sunt pare sau False, in caz contrar
+    '''
+    for i in lst:
+        if i%2 == 1:
+            return False
+    return True
+
+
+def test_toate_nr_pare():
+    '''
+    functie care testeaza daca functia "toate_nr_pare" este corecta
+    :return:
+    '''
+    assert (toate_nr_pare([2,4,6])==True)
+    assert (toate_nr_pare([2,44,1])==False)
+    assert (toate_nr_pare([13,5, 29])==False)
+    assert (toate_nr_pare([22, 3598])==True)
+
+
+def get_longest_all_even(lst):
+    '''
+    functie care determina cea mai lunga subsecventa care are proprietatea ca toate numerele sunt pare
+    :param lst: lista de valori citita cu ajutorul functiei "citireLista"
+    :return: cea mai lunga subsecventa cu proprietatea ceruta
+    '''
+    subsecventa_max3 = []
+    for i in range(len(lst)):
+        for j in range(i, len(lst) + 1):
+            if (toate_nr_pare(lst[i:j + 1]) == True) and len(lst[i:j + 1]) > len(subsecventa_max3):
+                subsecventa_max3 = lst[i:j + 1]
+    return subsecventa_max3
+
+
+def test_get_longest_all_even():
+    '''
+    functie care testeaza daca functia "get_longest_all_even" este corecta
+    :return:
+    '''
+    assert (get_longest_all_even([2,4,6,8])==[2,4,6,8])
+    assert (get_longest_all_even([2,4,1,6])==[2,4])
+    assert (get_longest_all_even([1,5,6,8,3,44,26,80])==[44,26,80])
+    assert (get_longest_all_even([1,3,5])==[])
+
+
 def main():
     test_nr_prim()
     test_toate_numerele_prime()
@@ -142,15 +191,18 @@ def main():
     test_cifre_prime()
     test_toate_nr_cifre_prime()
     test_get_longest_prime_digits()
+    test_toate_nr_pare()
+    test_get_longest_all_even()
     lst = []
     shouldRun = True
     while shouldRun:
         print("1. Citire date")
         print("2. Determinare cea mai lunga subsecventa cu proprietatea ca numerele sunt prime")
         print("3. Determinare cea mai lunga subsecventa cu proprietatea ca numerele sunt formate din cifre prime")
-        print("4. Iesire")
+        print("4. Determinare cea mai lunga subsecventa cu proprietatea ca numerele sunt pare")
+        print("5. Iesire")
         option = input("Introduceti optiunea:")
-        if option == "4":
+        if option == "5":
             shouldRun = False
         elif option == "1":
             lst = citireLista()
@@ -160,6 +212,9 @@ def main():
         elif option == "3":
             secventa_nr_cu_cifre_prime = get_longest_prime_digits(lst)
             print(secventa_nr_cu_cifre_prime)
+        elif option == "4":
+            secventa_nr_pare = get_longest_all_even(lst)
+            print(secventa_nr_pare)
         else:
             print("Optiunea este gresita!")
 if __name__ == "__main__":
